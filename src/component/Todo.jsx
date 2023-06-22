@@ -1,22 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import "./Todo.css"
-export default function Todo({clickPosition}) {
+export default function Todo() {
+  const [clickPosition, setClickPosition] = useState({ x: null, y: null });
+  const handleClick = (event) => {
+    const { clientX, clientY } = event;
+    setClickPosition({ x: clientX, y: clientY });
+   
+  };
+
+  const textStyles = {
+  position: ' absolute',
+    top: clickPosition.y,
+    left: clickPosition.x,
+
+  };
+
+//
+
+const [showResults, setShowResults] =useState(false)
+const onClick = () => setShowResults(false)
+
+  ///
 
   const [task, setTask] = useState("");
-    const [color, setColor] = useState("");
   const [tasks, setTasks] = useState([]);
-var today = new Date();
-var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+ 
+const today = new Date();
+const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+  const background = "#" + ((1<<24)*Math.random() | 0).toString(16);
+  const  transform = Math.floor(Math.random() * (8 - (-8))) + (-8);
+
   useEffect(()=>{
       if(localStorage.getItem("localTasks")){
           const storedList = JSON.parse(localStorage.getItem("localTasks"));
           setTasks(storedList);
       }
   },[])
-console.log(tasks)
+
+console.log(clickPosition)
   const addTask = (e) => {
     if (task) {
-      const newTask = { id: new Date().getTime().toString(), title: task,date:date, color:color,clickPosition:clickPosition };
+      const newTask = { id: new Date().getTime().toString(), title: task,date:date, clickPosition:clickPosition,background:background, transform:transform};
       setTasks([...tasks, newTask]);
       localStorage.setItem("localTasks", JSON.stringify([...tasks, newTask]));
       setTask("");
@@ -29,9 +53,18 @@ console.log(tasks)
       localStorage.setItem("localTasks", JSON.stringify(deleted))
   }
 
+/*  */
+
+
+
+
 
   return (
-    <div className="container " onClick={(event)=>event.stopPropagation()} >
+    <div  onClick={handleClick}>
+  <div onClick = {() => setShowResults(true)}  style={{ height: '2200px', width:'100%',position:"relative"}}  > 
+ { showResults ?
+ 
+    <div className="container " style={textStyles} onClick={(event)=>event.stopPropagation()}  >
     
       <div className="input">
         <textarea
@@ -44,76 +77,62 @@ console.log(tasks)
         />
       </div>
       <div className="bottom">
-  <div className="color">
-
-<label className="label 
-">
-  <input type="radio"  name="radio"  value="#f27f7f"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark1"></span>
-</label>
-
-<label className="label
-">
-  <input type="radio" name="radio" value="#ff0000"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark2"></span>
-</label>
-<label className="label
-">
-  <input type="radio" name="radio" value="#fffc00"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark3"></span>
-</label>
-<label className="label
-">
-  <input type="radio" name="radio" value="#23ff00"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark4"></span>
-</label>
-
-<label className="label 
-">
-  <input type="radio"  name="radio"  value="#ffa200"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark5"></span>
-</label>
-
-<label className="label 
-">
-  <input type="radio"  name="radio"  value="#f40ffe"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark6"></span>
-</label>
-
-<label className="label 
-">
-  <input type="radio"  name="radio"  value="#0ffecf"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark7"></span>
-</label>
-<label className="label 
-">
-  <input type="radio"  name="radio"  value="#bc7ff2"   onChange={(e) => setColor(e.target.value)}/>
-  <span className="checkmark checkmark8"></span>
-</label>
-</div>
+  
       <div className="Save">
         <button
           className="btn btn-primary form-control material-icons"
-          onClick={addTask}
+         onClick={addTask}
         >
-        Save
+      
+        <div onClick={onClick}>  Save</div>
         </button>
       </div>
       </div>
     
     
-      {tasks.map((task) => (
-          <div className="cardcomment" key={task.id} style={{backgroundColor:`${task.color}`}}>
-      <p  className="delete"   onClick ={()=> handleDelete(task)}> <i className="bi bi-x-circle"></i></p>
-     <div className="card1" >
-   {task.title}
+    
+    
+    </div> 
+
+ : null }
+    
+    
+  {tasks.map((task) => (
+  <div >
+
+    
   
-  </div>        
-<p className="date">{task.date}</p>
+<div style={{top:`${task.clickPosition.y}px`,left:`${task.clickPosition.x}px`,position:"absolute", transform:`rotate(${task.transform}deg) `}} className="sticky-container" key={task.id} onClick={(event)=>event.stopPropagation()}>
+  <div className="sticky-outer">
+    <div className="sticky">
+      <svg width="0" height="0">
+        <defs>
+          <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
+            <path
+              d="M 0 0 Q 0 0.69, 0.03 0.96 0.03 0.96, 1 0.96 Q 0.96 0.69, 0.96 0 0.96 0, 0 0"
+              stroke-linejoin="round"
+              stroke-linecap="square"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+      <div className="sticky-content" style={{backgroundColor:`${task.background}`}} >
+          <p  className="delete"  onClick ={()=> handleDelete(task)}> <i className="bi bi-x-circle"></i></p>
+    <p className="til"> {task.title}</p>
+      <p className="date">{task.date}</p>
       </div>
+    
+    </div>
+  </div>
+</div>
+  </div>
+        
       
       ))}
     
     </div>
+    </div>
+  
+  
   );
 }

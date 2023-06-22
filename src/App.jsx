@@ -1,14 +1,16 @@
 
 
 import './App.css'
-import Commet from './component/Commet'
+import Todo from './component/Todo'
+
 function App() {
 
 
   return (
     <>
+  
     <h1>Note Taker</h1>
-    <Commet />
+    <Todo />
     </>
   )
 }
