@@ -1,13 +1,13 @@
-/* import React from "react";
+/* import React,{ useState, useEffect}  from "react";
 
 
-const App = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [todo, setTodo] = React.useState("");
-  const [todoEditing, setTodoEditing] = React.useState(null);
-  const [editingText, setEditingText] = React.useState("");
+const Appp = () => {
+  const [todos, setTodos] =useState([]);
+  const [todo, setTodo] = useState("");
+  const [todoEditing, setTodoEditing] = useState(null);
+  const [editingText, setEditingText] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const json = localStorage.getItem("todos");
     const loadedTodos = JSON.parse(json);
     if (loadedTodos) {
@@ -15,7 +15,7 @@ const App = () => {
     }
   }, []);
 
-  React.useEffect(() => {
+useEffect(() => {
     const json = JSON.stringify(todos);
     localStorage.setItem("todos", json);
   }, [todos]);
@@ -37,15 +37,7 @@ const App = () => {
     setTodos(updatedTodos);
   }
 
-  function toggleComplete(id) {
-    let updatedTodos = [...todos].map((todo) => {
-      if (todo.id === id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  }
+  
 
   function submitEdits(id) {
     const updatedTodos = [...todos].map((todo) => {
@@ -73,12 +65,7 @@ const App = () => {
       {todos.map((todo) => (
         <div key={todo.id} className="todo">
           <div className="todo-text">
-            <input
-              type="checkbox"
-              id="completed"
-              checked={todo.completed}
-              onChange={() => toggleComplete(todo.id)}
-            />
+          
             {todo.id === todoEditing ? (
               <input
                 type="text"
@@ -103,10 +90,10 @@ const App = () => {
   );
 };
 
-export default App; */
+export default Appp; 
 
 
-
+ */
 
 
 /* 
@@ -183,3 +170,124 @@ function App() {
 
 export default App;
  */
+
+/* 
+
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+import { faPlus,faTrash,faPenToSquare} from '@fortawesome/free-solid-svg-icons'
+
+const getlocalitem=()=>{
+    let lst=localStorage.getItem('lists')
+    console.log(lst);
+if(lst){
+    return JSON.parse(localStorage.getItem('lists'))
+}else{
+    return [];
+}
+
+}
+
+const Todo =()=>{
+    const[item,setitem]=useState("");
+    const[val,setval]=useState(getlocalitem());
+    const[toggle,setoggle]=useState(true);
+    const[Edit,isEdititem]=useState("");
+
+
+    const getvalue=(e)=>{
+setitem(e.target.value)
+    }
+    const additem=()=>{
+        if(!item){
+            alert("Invalid!! Enter Todo Please")
+        }else if(item && !toggle){
+            setval(
+val.map((Val)=>{
+    if(Val.id===Edit){
+        return{...Val, name:item}
+    }
+    return Val;
+    
+})
+)
+      setoggle(true)
+    setitem("")
+    }
+        else{
+            const allitem={id: new Date().getTime().toString(),
+            name:item}
+setval([...val,allitem])
+setitem("");
+        }
+        
+
+
+    }
+     const delbtn=(id)=>{
+        const upitem=val.filter((elem,index)=>{
+            return id!==elem.id;
+        })
+        setval(upitem);
+
+     }
+     const dltall=()=>{
+        setval([]);
+     }
+     const edititem=(id)=>{
+setoggle(false)
+const edit=val.find((elem)=>{
+    return id===elem.id
+})
+setitem(edit.name)
+isEdititem(edit.id)
+
+
+     }
+     useEffect(()=>{
+        localStorage.setItem("lists",JSON.stringify(val))
+     },[val])
+return(
+    <>
+    <div>
+    <div className="Head">
+    <h1>My Todoie App</h1>
+    </div>
+    
+    <div className="Main">
+<div className="MainChild">
+   
+<input type="text" className="inp" onChange={getvalue} value={item} placeholder="ENTER TODO..."/>
+{
+    toggle ? <FontAwesomeIcon className="faplus" onClick={additem} icon={faPlus} /> : <FontAwesomeIcon className="faplus" onClick={additem} icon={faPenToSquare} />
+    
+}
+
+<button className="Btn" onClick={dltall}>Delete All</button>
+</div>
+<div className="content">
+    <ul>
+        {
+            val.map((value,index)=>{
+                return(
+<li key={index}>
+<h3 className="item">{value.name}</h3>
+<FontAwesomeIcon className="fatrash" icon={faTrash} onClick={()=>delbtn(value.id)} />
+<FontAwesomeIcon className="fapen" onClick={()=>edititem(value.id)} icon={faPenToSquare} />
+        </li>
+                )
+            })
+        }
+        
+    </ul>
+    
+</div>
+
+    </div>
+    </div>
+    </>
+)
+}
+export default Todo; */
