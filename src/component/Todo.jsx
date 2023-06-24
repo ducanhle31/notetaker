@@ -5,8 +5,7 @@ export default function Todo() {
   const [tasks, setTasks] = useState([]);
   const [todoEditing, setTodoEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
-console.log(editingText)
-console.log(tasks)
+
 function submitEdits(id) {
     const updatedTasks = [...tasks].map((task) => {
       if (task.id === id) {
@@ -21,7 +20,7 @@ function submitEdits(id) {
 
 
 const [showResults, setShowResults] =useState(false)
-const months = ["#0872ff", "#f27f7f", "#00d4ff", "#f556dc", "#dff500", 
+const months = [ "#f27f7f", "#00d4ff", "#f556dc", "#dff500", 
 "#00f5ee", "#23ff00", "#d7bc32", "#f5f056", "#56bff5", ];
 const background = months[Math.floor(Math.random() * months.length)];
   const [clickPosition, setClickPosition] = useState({ x: null, y: null });
@@ -35,16 +34,17 @@ const background = months[Math.floor(Math.random() * months.length)];
   position: ' absolute',
     top: clickPosition.y,
     left: clickPosition.x,
+
   };
 
-const fonts = ["Arial", "Times New Roman", "Roboto", "Kalam" ];
+const fonts = ["'Dancing Script', cursive", " 'Open Sans', sans-serif", "'Roboto', sans-serif", "Kalam, cursive","'Sacramento', cursive" ];
   const [randomFonts, setRandomFonts] = useState("null");
   const handleButtonClick = () => {
     const randomIndex = Math.floor(Math.random() * fonts.length);
   const randomElement = fonts[randomIndex];
     setRandomFonts(randomElement);
   };
-console.log(randomFonts)
+
   //
 const today = new Date();
 const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
@@ -81,10 +81,19 @@ setShowResults(false)
   <div onClick = {() => {if(task.trim()=='') {setShowResults(true)}else{setTask("");}}}   style={{ height: '2200px', width:'100%',position:"relative"}}  > 
  { showResults ?
  
-    <div      onBlur={addTask }  className="container " style={textStyles} onClick={(event)=>event.stopPropagation()} >
-
-    
-        <textarea
+    <div   onBlur={addTask }  className="container " style={textStyles} onClick={(event)=>event.stopPropagation()} >
+      <svg width="0" height="0">
+        <defs>
+          <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
+            <path
+              d="M 0 0 Q 0 0.69, 0.03 0.96 0.03 0.96, 1 0.96 Q 0.96 0.69, 0.96 0 0.96 0, 0 0"
+              stroke-linejoin="round"
+              stroke-linecap="square"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+  <textarea
           name="task"
           type="text"
           value={task}
@@ -93,7 +102,7 @@ setShowResults(false)
           onChange={(e) => setTask(e.target.value)}
      onDoubleClick={handleButtonClick}
   style={{fontFamily:`${randomFonts}`}}
-  
+
         />
     
     </div> 
@@ -123,14 +132,17 @@ setShowResults(false)
           </clipPath>
         </defs>
       </svg>
-      <div className="sticky-content" style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}} >
-          <p  className="delete"  onClick ={()=> handleDelete(task)}> <i className="bi bi-x-circle"></i></p>
+      <div className="sticky-content" style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}}   onDoubleClick={() => {setTodoEditing(task.id),setEditingText(task.title)}}
+       onBlur={() => submitEdits(task.id)}
+      >
+          <p  className="delete"  onClick ={()=> handleDelete(task)}><i className="bi bi-x-lg"></i></p>
   {task.id === todoEditing ? (<textarea
     placeholder="Write your note..."
           className="form-control"
           value={editingText}
                 type="text"
                 onChange={(e) => setEditingText(e.target.value)}
+              
                 style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}} 
               />):(
                 
@@ -144,27 +156,14 @@ setShowResults(false)
     
     </div>
 
-  <div className="todo-actions">
-            {task.id === todoEditing ? (
-              <button onClick={() => submitEdits(task.id)}>Submit Edits</button>
-            ) : (
-              <button onClick={() => {setTodoEditing(task.id),setEditingText(task.title)}}>Edit</button>
-            )}
-
-          </div>
-
   </div>
 
-  
 </div>
-
-        
-      
+    
       ))}
     
     </div>
     </div>
-  
   
   );
 }
