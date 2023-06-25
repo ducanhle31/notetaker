@@ -18,32 +18,39 @@ function submitEdits(id) {
   }
 
 
+const months = [ "#f8a5a5", "#ffdde1", "#f978ff", "#fee600", 
+"#00f5ee", "#3cf066","#1cf614" ,"#f5f056", "#6DD5FA", ];
+const [background, setBackground] = useState("null");
+  const handleButtonBackground = () => {
+    const randomIndexBackground = Math.floor(Math.random() * months.length);
+  const randomElements = months[randomIndexBackground];
+    setBackground(randomElements);
+  };
 
 const [showResults, setShowResults] =useState(false)
-const months = [ "#f27f7f", "#00d4ff", "#f556dc", "#dff500", 
-"#00f5ee", "#23ff00", "#d7bc32", "#f5f056", "#56bff5", ];
-const background = months[Math.floor(Math.random() * months.length)];
+
   const [clickPosition, setClickPosition] = useState({ x: null, y: null });
   const handleClick = (event) => {
     const { clientX, clientY } = event;
     setClickPosition({ x: clientX, y: clientY });
-   
+   handleButtonBackground()
   };
 
   const textStyles = {
   position: ' absolute',
     top: clickPosition.y,
     left: clickPosition.x,
-
+backgroundColor:`${background}`
   };
 
-const fonts = ["'Dancing Script', cursive", " 'Open Sans', sans-serif", "'Roboto', sans-serif", "Kalam, cursive","'Sacramento', cursive" ];
+const fonts = ["'Dancing Script', cursive", " 'Caveat', cursive", "'Rock Salt', cursive", "Kalam, cursive","'Sacramento', cursive","Just Another Hand', cursive" ];
   const [randomFonts, setRandomFonts] = useState("null");
   const handleButtonClick = () => {
     const randomIndex = Math.floor(Math.random() * fonts.length);
   const randomElement = fonts[randomIndex];
     setRandomFonts(randomElement);
   };
+//
 
   //
 const today = new Date();
@@ -101,7 +108,7 @@ setShowResults(false)
           className="form-control"
           onChange={(e) => setTask(e.target.value)}
      onDoubleClick={handleButtonClick}
-  style={{fontFamily:`${randomFonts}`}}
+  style={{fontFamily:`${randomFonts}`,backgroundColor:`${background}`}}
 
         />
     
