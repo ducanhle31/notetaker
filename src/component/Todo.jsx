@@ -18,8 +18,8 @@ function submitEdits(id) {
   }
 
 
-const months = [ "#f8a5a5", "#ffdde1", "#f978ff", "#fee600", 
-"#00f5ee", "#3cf066","#1cf614" ,"#f5f056", "#6DD5FA", ];
+const months = [ "#f8a5a5", "#ffdde1", "#f978ff", "#ffdb37", 
+"#00f5ee", "#3cf066","#47f640" ,"#f5f156", "#6DD5FA", ];
 const [background, setBackground] = useState("null");
   const handleButtonBackground = () => {
     const randomIndexBackground = Math.floor(Math.random() * months.length);
