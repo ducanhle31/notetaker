@@ -27,20 +27,29 @@ const [background, setBackground] = useState("null");
     setBackground(randomElements);
   };
 
+const [transform, setTransform] = useState("null");
+  const handleTransform = () => {
+    const randomIndexTransform= Math.floor(Math.random() * (8 - (-8))) + (-8);
+  setTransform(randomIndexTransform);
+  };
+
+
 const [showResults, setShowResults] =useState(false)
 
   const [clickPosition, setClickPosition] = useState({ x: null, y: null });
   const handleClick = (event) => {
     const { clientX, clientY } = event;
     setClickPosition({ x: clientX, y: clientY });
-   handleButtonBackground()
+   handleButtonBackground();
+   handleTransform();
   };
 
   const textStyles = {
   position: ' absolute',
     top: clickPosition.y,
     left: clickPosition.x,
-backgroundColor:`${background}`
+backgroundColor:`${background}`,
+transform:`rotate(${transform}deg) `
   };
 
 const fonts = ["'Dancing Script', cursive", " 'Caveat', cursive", "'Rock Salt', cursive", "Kalam, cursive","'Sacramento', cursive","Just Another Hand', cursive" ];
@@ -55,7 +64,8 @@ const fonts = ["'Dancing Script', cursive", " 'Caveat', cursive", "'Rock Salt', 
   //
 const today = new Date();
 const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-const  transform = Math.floor(Math.random() * (8 - (-8))) + (-8);
+
+
 
   useEffect(()=>{
       if(localStorage.getItem("localTasks")){
@@ -89,7 +99,9 @@ setShowResults(false)
  { showResults ?
  
     <div   onBlur={addTask }  className="container " style={textStyles} onClick={(event)=>event.stopPropagation()} >
-      <svg width="0" height="0">
+  
+        
+  <svg width="0" height="0">
         <defs>
           <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
             <path
@@ -108,7 +120,7 @@ setShowResults(false)
           className="form-control"
           onChange={(e) => setTask(e.target.value)}
      onDoubleClick={handleButtonClick}
-  style={{fontFamily:`${randomFonts}`,backgroundColor:`${background}`}}
+  style={{fontFamily:`${randomFonts}`,backgroundColor:`${background}`,}}
 
         />
     
