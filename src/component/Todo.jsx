@@ -62,8 +62,8 @@ const fonts = ["'Dancing Script', cursive", " 'Caveat', cursive", "'Rock Salt', 
 //
 
   //
-const today = new Date();
-const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+/* const today = new Date();
+const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(); */
 
 
 
@@ -77,7 +77,7 @@ const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
 
   const addTask = (e) => {
     if (task) {
-      const newTask = { id: new Date().getTime().toString(), title: task,date:date, clickPosition:clickPosition,background:background, transform:transform,randomFonts:randomFonts};
+      const newTask = { id: new Date().getTime().toString(), title: task, clickPosition:clickPosition,background:background, transform:transform,randomFonts:randomFonts};
       setTasks([...tasks, newTask]);
       localStorage.setItem("localTasks", JSON.stringify([...tasks, newTask]));
       
@@ -100,7 +100,6 @@ setShowResults(false)
  
     <div   onBlur={addTask }  className="container " style={textStyles} onClick={(event)=>event.stopPropagation()} >
   
-        
   <svg width="0" height="0">
         <defs>
           <clipPath id="stickyClip" clipPathUnits="objectBoundingBox">
@@ -154,7 +153,7 @@ setShowResults(false)
       <div className="sticky-content" style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}}   onDoubleClick={() => {setTodoEditing(task.id),setEditingText(task.title)}}
        onBlur={() => submitEdits(task.id)}
       >
-          <p  className="delete"  onClick ={()=> handleDelete(task)}><i className="bi bi-x-lg"></i></p>
+          <p  className="delete"  onClick ={()=> handleDelete(task)}><i className="bi bi-trash3"></i></p>
   {task.id === todoEditing ? (<textarea
     placeholder="Write your note..."
           className="form-control"
@@ -169,8 +168,6 @@ setShowResults(false)
                 )
   }
 
-      <p className="date">{task.date}</p>
-    
       </div>
     
     </div>
