@@ -291,3 +291,42 @@ return(
 )
 }
 export default Todo; */
+
+import React, { useState } from 'react';
+
+const Cursor = () => {
+  const [dragging, setDragging] = useState(false);
+
+  const handleDragStart = (e) => {
+    setDragging(true);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDragLeave = (e) => {
+    setDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragging(false);
+    console.log('Element dropped!');
+  };
+
+  return (
+    <div
+      draggable
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      style={{ width: 200, height: 200, backgroundColor: dragging ? 'blue' : 'red' }}
+    >
+      Drag me!
+    </div>
+  );
+};
+
+export default Cursor;

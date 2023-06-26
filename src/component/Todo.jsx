@@ -1,15 +1,34 @@
 import React, { useState, useEffect} from "react";
+import Draggable from 'react-draggable';
 import "./Todo.css"
 export default function Todo() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [todoEditing, setTodoEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
+  const [editingClickPosition, setEditingClickPosition] = useState("");
+  const [clickPosition, setClickPosition] = useState({ x: null, y: null });
+  const handleClick = (event) => {
+    const { clientX, clientY } = event;
+    setClickPosition({ x: clientX, y: clientY });
+   handleButtonBackground();
+   handleTransform();
+  };
+   const [position, setPosition] = useState(clickPosition);
+   console.log(position)
+  const handleDrag = (e, ui) => {
+     const { x, y } = ui;
+    setPosition({ x, y });
 
+    setTodoEditing(task.id);setEditingClickPosition(task.position);
+     handleButtonBackground();
+   handleTransform();
+  };
 function submitEdits(id) {
     const updatedTasks = [...tasks].map((task) => {
       if (task.id === id) {
         task.title = editingText;
+        task.position = editingClickPosition;
       }
       return task;
     });
@@ -18,6 +37,7 @@ function submitEdits(id) {
   }
 
 
+  
 const months = [ "#f8a5a5", "#ffdde1", "#f978ff", "#ffdb37", 
 "#00f5ee", "#3cf066","#47f640" ,"#f5f156", "#6DD5FA", ];
 const [background, setBackground] = useState("null");
@@ -36,13 +56,6 @@ const [transform, setTransform] = useState("null");
 
 const [showResults, setShowResults] =useState(false)
 
-  const [clickPosition, setClickPosition] = useState({ x: null, y: null });
-  const handleClick = (event) => {
-    const { clientX, clientY } = event;
-    setClickPosition({ x: clientX, y: clientY });
-   handleButtonBackground();
-   handleTransform();
-  };
 
   const textStyles = {
   position: ' absolute',
@@ -52,8 +65,8 @@ backgroundColor:`${background}`,
 transform:`rotate(${transform}deg) `
   };
 
-const fonts = ["'Dancing Script', cursive", " 'Caveat', cursive", "'Rock Salt', cursive", "Kalam, cursive","'Sacramento', cursive","Just Another Hand', cursive" ];
-  const [randomFonts, setRandomFonts] = useState("null");
+const fonts = ["Kalam, cursive","'Sacramento', cursive","Just Another Hand', cursive" ];
+  const [randomFonts, setRandomFonts] = useState("Kalam, cursive");
   const handleButtonClick = () => {
     const randomIndex = Math.floor(Math.random() * fonts.length);
   const randomElement = fonts[randomIndex];
@@ -77,7 +90,7 @@ const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear(); *
 
   const addTask = (e) => {
     if (task) {
-      const newTask = { id: new Date().getTime().toString(), title: task, clickPosition:clickPosition,background:background, transform:transform,randomFonts:randomFonts};
+      const newTask = { id: new Date().getTime().toString(), title: task, clickPosition:clickPosition,background:background, transform:transform,randomFonts:randomFonts,position:position};
       setTasks([...tasks, newTask]);
       localStorage.setItem("localTasks", JSON.stringify([...tasks, newTask]));
       
@@ -95,7 +108,9 @@ setShowResults(false)
 
   return (
     <div onClick={handleClick}>
-  <div onClick = {() => {if(task.trim()=='') {setShowResults(true)}else{setTask("");}}}   style={{ height: '2200px', width:'100%',position:"relative"}}  > 
+  <div onClick = {() => {if(task.trim()=='') {setShowResults(true)}else{setTask("");}}}   style={{ height: '2200px', width:'100%',position:"relative"}} 
+
+   > 
  { showResults ?
  
     <div   onBlur={addTask }  className="container " style={textStyles} onClick={(event)=>event.stopPropagation()} >
@@ -132,11 +147,17 @@ setShowResults(false)
 
 
   {tasks.map((task) => (
-
+    <div  style={{ transform:`rotate(${task.transform}deg) `
+}}> 
+ <Draggable onDrag={handleDrag}
+   onDragover={() => submitEdits(task.id)} >
 
 <div    style={{top:`${task.clickPosition.y}px`,left:`${task.clickPosition.x}px`,position:"absolute", transform:`rotate(${task.transform}deg) `,
 
-}} className="sticky-container" key={task.id} onClick={(event)=>event.stopPropagation()}>
+}} className="sticky-container" key={task.id} onClick={(event)=>event.stopPropagation()}
+  
+>
+
 <div className="sticky-outer">
     <div className="sticky">
       <svg width="0" height="0">
@@ -152,6 +173,7 @@ setShowResults(false)
       </svg>
       <div className="sticky-content" style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}}   onDoubleClick={() => {setTodoEditing(task.id),setEditingText(task.title)}}
        onBlur={() => submitEdits(task.id)}
+  
       >
           <p  className="delete"  onClick ={()=> handleDelete(task)}><i className="bi bi-trash3"></i></p>
   {task.id === todoEditing ? (<textarea
@@ -162,9 +184,10 @@ setShowResults(false)
                 onChange={(e) => setEditingText(e.target.value)}
               
                 style={{backgroundColor:`${task.background}`,fontFamily:`${task.randomFonts}`}} 
+
               />):(
                 
-    <p className="til" > {task.title}</p>
+    <p className="til"   style={{fontFamily:`${task.randomFonts}`}}  > {task.title}</p>
                 )
   }
 
@@ -175,7 +198,7 @@ setShowResults(false)
   </div>
 
 </div>
-    
+    </Draggable></div>
       ))}
     
     </div>

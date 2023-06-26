@@ -14,34 +14,35 @@ clip-path: url(#stickyClip) ;
 background-color:  rgb(245, 240, 86); 
 }
 
-.container textarea{max-width: 270px; max-height:210px ;width: 270px;height: 210px;border: none;background-color:  rgb(245, 240, 86);
-    margin: 5px;border-radius: 10px; align-items: start; padding-left: 10px;padding-top: 10px; font-size: 1.5rem;
+.container textarea{max-width: 270px; max-height:210px ;width: 270px;height: 210px;border: none;
+   align-items: start; padding-left: 10px;padding-top: 20px; font-size: 1.5rem;
     
 }
-.sticky-content textarea{max-width: 240px; max-height:225px ;width: 240px;height: 225px;;border: none;background-color:  rgb(245, 240, 86);
-  border-radius: 10px; align-items: start;font-size: 1.5rem;
-    padding-left: 15px;
+.sticky-container {
+  width: 290px; height: 235px;
+position: relative; margin-top: -35px;
+
 }
-.delete{font-size: 1rem;margin-left: 250px; padding: 6px;}
-.delete:hover{color:red;}
-.title{align-items: center;width: 280px; height: max-content;}
+.sticky-content textarea{max-width: 270px; max-height:210px ;width: 270px;height: 210px;border: none;
+   align-items: start; padding-left: 10px;padding-top: 20px; font-size: 1.5rem;
+}
+.delete{font-size: 1rem;margin-left: 250px; padding: 6px;color:#969696;}
+.delete:hover{color:#000000;}
+.title{align-items: center;width: 280px; height: 200px;}
 
 
 
 .todo-actions{z-index: 10;}
 
 
-.sticky-container {
-    width: 290px; height: 235px;
-position: relative; margin-top: -35px;
-}
+
 
 .sticky-container:hover{
 z-index: 2;
 }
 .sticky-outer {
   display: flex;
-  padding-top: 92.5925926%;
+  padding-top: 82.5%;
   position: relative;
     width: 100%;
 }
@@ -67,13 +68,12 @@ z-index: 2;
 
 
 .sticky-content {
-  width: 100%;
-  height: 100%;
-
+  width: 290px; height: 235px;
+padding-left: 15px;
 align-items: center;
 clip-path: url(#stickyClip);
 }
-.sticky-content .til{  font-size: 1.5rem; width: 240px; height: max-content;padding-left: 15px; }
+.sticky-content .til{  font-size: 1.5rem;  ;width: 280px; height: 200px}
 
 /* Add responsiveness */
 @media screen and (min-width: 640px) {
@@ -106,8 +106,6 @@ clip-path: url(#stickyClip);
     font-size: 1.875rem;
   }
 }
-
-
 
 
 
