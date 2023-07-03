@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+Tạo App note taker
+Để tạo app ghi chú với các chức năng (click vào vị trí bất kỳ trên màn hình sẽ hiển thị ra ô nhập liệu Click ra bên ngoài sẽ save nội dung vị trí của note, màu sắc và độ nghiêng sẽ được ramdom trong mảng cho trước. Font chữ thay đổi được khi doubleClick vào ô nhập liệu .Nội dung của note khi doubleClick sẽ thay đổi được ,khi click ra bên ngoài sẽ save lại nội dung đã sửa . Note đã tạo chúng ta có thể kéo thả thay đổi vị trí mà mình mong muốn . Chúng ta có thể xóa được những note đã tạo  )
+đầu tiên Cài đặt các thư viện:
+- react-draggable
+2. Trong hàm Todo, chúng ta sử dụng các hook useState và useEffect, useRef để quản lý trạng thái, hiệu suất , đối tượng tham chiếu của component.
 
-import Draggable from "react-draggable";
-import "./Todo.css";
 export default function Todo() {
-  // khởi tạo các biến trạng thái
-
-  //Khởi tạo state lưu giá trị người dùng nhập vào ô input
+      //Khởi tạo state lưu giá trị người dùng nhập vào ô input
   const [task, setTask] = useState("");
   // khởi tạo state lưu trữ mảng todo
   const [tasks, setTasks] = useState([]);
@@ -28,6 +28,22 @@ export default function Todo() {
   // khởi tạo đối tượng tham chiếu để kéo các thành phần
   const draggableRef = useRef(null);
   // handleClick: Được gọi khi người dùng nhấp vào trang. Cập nhật vị trí nhấp chuột, màu nền và độ nghiêng của ghi chú dán.
+
+    return (
+        ....
+    )
+}
+
+3. Cập nhật State
+(Mỗi khi state được cập nhật thì Component sẽ re-render (function được chạy lại và giao diện được cập nhật lại theo state). Cần chú ý là không được thay đổi trực tiếp biến state (immutable) mà phải cập nhật thông qua hàm cập nhật state.)
+
+export default function Todo() {
+// khai báo 
+...
+// cập nhật 
+
+
+// handleClick: Được gọi khi người dùng nhấp vào trang. Cập nhật vị trí nhấp chuột, màu nền và độ nghiêng của ghi chú dán.
   const handleClick = (event) => {
     const { clientX, clientY } = event;
     setClickPosition({ x: clientX, y: clientY });
@@ -103,7 +119,7 @@ export default function Todo() {
     setRandomFonts(randomElement);
   };
   // tải mọi tác vụ được lưu trữ trước đó từ localStorage khi thành phần được gắn kết.
-  useEffect(() => {
+useEffect(() => {
     if (localStorage.getItem("localTasks")) {
       const storedList = JSON.parse(localStorage.getItem("localTasks"));
       setTasks(storedList);
@@ -133,9 +149,19 @@ export default function Todo() {
     setTasks(deleted);
     localStorage.setItem("localTasks", JSON.stringify(deleted));
   };
+ return ( ... )
+}
 
-  return (
-    <div onClick={handleClick}>
+
+4. render dữ liệu 
+export default function Todo() {
+// khởi tạo 
+...
+// cập nhật 
+... 
+
+return(
+  <div onClick={handleClick}>
       <div
         onClick={() => {
           if (task.trim() == "") {
@@ -146,6 +172,8 @@ export default function Todo() {
         }}
         style={{ height: "2200px", width: "100%", position: "relative" }}
       >
+
+      
         {showResults ? (
           <div
             onBlur={addTask}
@@ -261,5 +289,5 @@ export default function Todo() {
         ))}
       </div>
     </div>
-  );
+)
 }
