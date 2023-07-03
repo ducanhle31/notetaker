@@ -24,7 +24,7 @@ export default function Todo() {
   // lưu màu nền , giá trị transform, Font chữ
   const [background, setBackground] = useState("null");
   const [transform, setTransform] = useState("null");
-  const [randomFonts, setRandomFonts] = useState("Kalam, cursive");
+  const [randomFonts, setRandomFonts] = useState("Mali, cursive");
   // khởi tạo đối tượng tham chiếu để kéo các thành phần
   const draggableRef = useRef(null);
   // handleClick: Được gọi khi người dùng nhấp vào trang. Cập nhật vị trí nhấp chuột, màu nền và độ nghiêng của ghi chú dán.
@@ -94,9 +94,9 @@ export default function Todo() {
   const fonts = [
     "Kalam, cursive",
     "'Sacramento', cursive",
-    "Just Another Hand', cursive",
+    "Just Another Hand', cursive", "'Mali', cursive",
   ];
-  // Được gọi khi người dùng nhấp đúp vào ghi chú dính. Tạo phông chữ ngẫu nhiên cho ghi chú dán.
+  // Được gọi khi người dùng nhấp đúp vào ghi chú . Tạo phông chữ ngẫu nhiên cho ghi chú dán.
   const handleButtonClick = () => {
     const randomIndex = Math.floor(Math.random() * fonts.length);
     const randomElement = fonts[randomIndex];
@@ -109,7 +109,8 @@ export default function Todo() {
       setTasks(storedList);
     }
   }, []);
-  //Được gọi khi người dùng thêm một tác vụ mới. Tạo một đối tượng  mới và thêm nó vào mảng . Cũng cập nhật localStorage.
+  //Được gọi khi người dùng thêm một tác vụ mới. Tạo một đối tượng  mới và thêm nó vào mảng , đồng thời cập nhật localStorage.
+  
   const addTask = (e) => {
     if (task) {
       const newTask = {
@@ -128,6 +129,7 @@ export default function Todo() {
     }
   };
   //Được gọi khi người dùng xóa một tác vụ. Xóa tác vụ khỏi mảng tác vụ và cập nhật localStorage.
+
   const handleDelete = (task) => {
     const deleted = tasks.filter((t) => t.id !== task.id);
     setTasks(deleted);
@@ -135,6 +137,7 @@ export default function Todo() {
   };
 
   return (
+
     <div onClick={handleClick}>
       <div
         onClick={() => {
@@ -146,6 +149,7 @@ export default function Todo() {
         }}
         style={{ height: "2200px", width: "100%", position: "relative" }}
       >
+  
         {showResults ? (
           <div
             onBlur={addTask}

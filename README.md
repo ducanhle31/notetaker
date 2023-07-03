@@ -1,9 +1,12 @@
 Cách xây dựng ứng dụng Notetaker
-Trong hướng dẫn này, chúng ta sẽ tạo một ứng dụng việc cần làm đơn giản bằng cách sử dụng React và ghi chú dán có thể kéo được. Ứng dụng sẽ cho phép người dùng thêm, chỉnh sửa và xóa các tác vụ được biểu thị dưới dạng ghi chú dán có thể kéo được trên màn hình. Hãy đi sâu vào quy trình từng bước để xây dựng ứng dụng này.
+Trong hướng dẫn này, chúng ta sẽ tạo một ứng dụng việc cần làm đơn giản bằng cách sử dụng React và ghi chú dán có thể kéo được.
+ Ứng dụng sẽ cho phép người dùng thêm, chỉnh sửa và xóa các tác vụ được biểu thị dưới dạng ghi chú dán và có thể kéo được trên màn hình.
+ 
+Hãy đi sâu vào quy trình từng bước để xây dựng ứng dụng này.
 
 Bước 1: Thiết lập dự án
-Bắt đầu bằng cách tạo một dự án React mới bằng cách sử dụng Tạo ứng dụng React. Mở terminal của bạn và chạy lệnh sau:
--Chạy lệnh sau để khởi tạo dự án React mới
+Bắt đầu bằng cách tạo một dự án React mới bằng cách sử dụng Tạo ứng dụng React + vite 
+-Mở terminal của bạn và chạy lệnh sau để khởi tạo dự án React mới:
 npm create vite@latest note
 -Khi dự án được tạo, hãy điều hướng vào thư mục dự án:
 cd note
@@ -17,7 +20,7 @@ import Draggable from "react-draggable";
 export default function Note() {
 //Khởi tạo state lưu giá trị người dùng nhập vào ô input
 const [task, setTask] = useState("");
-// khởi tạo state lưu trữ mảng todo
+// khởi tạo state lưu trữ mảng Note
 const [tasks, setTasks] = useState([]);
 //khởi tạo state sửa giá trị theo Id
 const [todoEditing, setTodoEditing] = useState(null);
@@ -37,12 +40,9 @@ const [transform, setTransform] = useState("null");
 const [randomFonts, setRandomFonts] = useState("Kalam, cursive");
 // khởi tạo đối tượng tham chiếu để kéo các thành phần
 const draggableRef = useRef(null);
-// handleClick: Được gọi khi người dùng nhấp vào trang. Cập nhật vị trí nhấp chuột, màu nền và độ nghiêng của ghi chú dán.
-
-    return (
+return (
         ....
     )
-
 }
 
 Bước 3: Cập nhật State (xử lý sự kiện)
@@ -161,7 +161,7 @@ export default function Todo() {
 
 return(
 
-  <div onClick={handleClick}>
+  <div onClick={handleClick} //Trình xử lý sự kiện onClick được thêm vào phần tử div ngoài cùng để xử lý các lần nhấp vào vùng chứa chính.  >
       <div
         onClick={() => {
           if (task.trim() == "") {
@@ -170,15 +170,17 @@ return(
             setTask("");
           }
         }}
+      //  kiểm tra xem biến tác vụ có trống không (task.trim() == ""). Nếu nó trống, trạng thái showResults được đặt thành true bằng cách sử dụng setShowResults(true); mặt khác, trạng thái tác vụ được đặt lại thành một chuỗi trống (setTask("")).
+      
         style={{ height: "2200px", width: "100%", position: "relative" }}
       >
 
         {showResults ? (
           <div
-            onBlur={addTask}
+            onBlur={addTask}  // kích hoạt chức năng addTask khi người dùng nhấp vào bên ngoài vùng văn bản 
             className="container "
             style={textStyles}
-            onClick={(event) => event.stopPropagation()}
+            onClick={(event) => event.stopPropagation()} 
           >
             <svg width="0" height="0">
               <defs>
@@ -304,7 +306,6 @@ return (
 </div>
 );
 }
-
 export default App;
 
 Bước 6: Chạy ứng dụng :
