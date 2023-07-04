@@ -63,11 +63,8 @@ export default function Todo() {
   const colors = [
     "#f8a5a5",
     "#ffdde1",
-    "#f978ff",
-    "#ffdb37",
     "#00f5ee",
     "#3cf066",
-    "#47f640",
     "#f5f156",
     "#6DD5FA",
   ];
@@ -94,7 +91,8 @@ export default function Todo() {
   const fonts = [
     "Kalam, cursive",
     "'Sacramento', cursive",
-    "Just Another Hand', cursive", "'Mali', cursive",
+    "Just Another Hand', cursive",
+    "'Mali', cursive",
   ];
   // Được gọi khi người dùng nhấp đúp vào ghi chú . Tạo phông chữ ngẫu nhiên cho ghi chú dán.
   const handleButtonClick = () => {
@@ -110,7 +108,7 @@ export default function Todo() {
     }
   }, []);
   //Được gọi khi người dùng thêm một tác vụ mới. Tạo một đối tượng  mới và thêm nó vào mảng , đồng thời cập nhật localStorage.
-  
+
   const addTask = (e) => {
     if (task) {
       const newTask = {
@@ -137,7 +135,6 @@ export default function Todo() {
   };
 
   return (
-
     <div onClick={handleClick}>
       <div
         onClick={() => {
@@ -149,7 +146,6 @@ export default function Todo() {
         }}
         style={{ height: "2200px", width: "100%", position: "relative" }}
       >
-  
         {showResults ? (
           <div
             onBlur={addTask}
@@ -235,27 +231,28 @@ export default function Todo() {
                       <p className="delete" onClick={() => handleDelete(task)}>
                         <i className="bi bi-trash3"></i>
                       </p>
-                      {task.id === todoEditing ? (
-                        <textarea
-                          placeholder="Write your note..."
-                          className="form-control"
-                          value={editingText}
-                          type="text"
-                          onChange={(e) => setEditingText(e.target.value)}
-                          style={{
-                            backgroundColor: `${task.background}`,
-                            fontFamily: `${task.randomFonts}`,
-                          }}
-                        />
-                      ) : (
-                        <p
-                          className="til"
-                          style={{ fontFamily: `${task.randomFonts}` }}
-                        >
-                          {" "}
-                          {task.title}
-                        </p>
-                      )}
+                      <div>
+                        {task.id === todoEditing ? (
+                          <textarea
+                            placeholder="Write your note..."
+                            className="form-control editform-control"
+                            value={editingText}
+                            type="text"
+                            onChange={(e) => setEditingText(e.target.value)}
+                            style={{
+                              backgroundColor: `${task.background}`,
+                              fontFamily: `${task.randomFonts}`,
+                            }}
+                          />
+                        ) : (
+                          <p
+                            className="til"
+                            style={{ fontFamily: `${task.randomFonts}` }}
+                          >
+                            {task.title}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

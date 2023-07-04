@@ -46,8 +46,7 @@ return (
 }
 
 Bước 3: Cập nhật State (xử lý sự kiện)
-(Mỗi khi state được cập nhật thì Component sẽ re-render (function được chạy lại và giao diện được cập nhật lại theo state). Cần chú ý là không được thay đổi trực tiếp biến state (immutable) mà phải cập nhật thông qua hàm cập nhật state.)
-
+Mỗi khi state được cập nhật thì Component sẽ re-render (function được chạy lại và giao diện được cập nhật lại theo state). 
 export default function Todo() {
 /// khai báo
 ...
@@ -160,8 +159,7 @@ export default function Todo() {
 ...
 
 return(
-
-  <div onClick={handleClick} //Trình xử lý sự kiện onClick được thêm vào phần tử div ngoài cùng để xử lý các lần nhấp vào vùng chứa chính.  >
+<div onClick={handleClick} //Trình xử lý sự kiện onClick được thêm vào phần tử div ngoài cùng để xử lý các lần nhấp vào vùng chứa chính.  >
       <div
         onClick={() => {
           if (task.trim() == "") {
@@ -171,7 +169,7 @@ return(
           }
         }}
       //  kiểm tra xem biến tác vụ có trống không (task.trim() == ""). Nếu nó trống, trạng thái showResults được đặt thành true bằng cách sử dụng setShowResults(true); mặt khác, trạng thái tác vụ được đặt lại thành một chuỗi trống (setTask("")).
-      
+
         style={{ height: "2200px", width: "100%", position: "relative" }}
       >
 
@@ -296,18 +294,17 @@ return(
 
 Bước 5: Tích hợp Thành phần Note
 Mở tệp App.js trong thư mục src và thay thế mã hiện có bằng mã sau:
+
 import React from "react";
 import Note from "./Note";
-
-function App() {
+export default function App() {
 return (
 <div className="App">
 <Note />
 </div>
 );
 }
-export default App;
+
 
 Bước 6: Chạy ứng dụng :
-
 - npm run dev
